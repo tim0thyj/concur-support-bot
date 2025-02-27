@@ -21,20 +21,33 @@
         <p class="answer-box" id="answer"></p>
     </div>
 
-    <script>
-        function askQuestion() {
-            let question = document.getElementById("question").value;
-            fetch("/ask", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "question=" + encodeURIComponent(question)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("answer").innerHTML = data.answer;
-            });
+<script>
+    function askQuestion() {
+        let question = document.getElementById("question").value;
+        if (question.trim() === "") return; // Prevent empty submissions
+
+        fetch("/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "question=" + encodeURIComponent(question)
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("answer").innerHTML = data.answer;
+        });
+
+        // Clear input field after asking
+        document.getElementById("question").value = "";
+    }
+
+    // Enable "Enter" key for asking a question
+    document.getElementById("question").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent form submission
+            askQuestion();
         }
-    </script>
+    });
+</script>
 </body>
 </html>
 
