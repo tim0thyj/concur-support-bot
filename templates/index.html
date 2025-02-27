@@ -40,23 +40,6 @@
         font-weight: bold;
     }
 
-    /* Quick Buttons */
-    .quick-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 15px;
-    }
-
-    .quick-buttons button {
-        flex: 1 1 auto;
-        min-width: 150px;
-        max-width: 250px;
-        font-size: 16px;
-        padding: 12px;
-    }
-
     /* Mobile Styles */
     @media screen and (max-width: 768px) {
         .chat-container {
@@ -94,11 +77,6 @@
         <!-- Suggestions -->
         <div id="suggestions" class="suggestions"></div>
 
-<!-- Quick Action Buttons -->
-<div class="quick-buttons">
-    <button class="btn btn-primary" onclick="setQuestion('How do I submit an expense report?')">📂 Submit an Expense</button>
-    <button class="btn btn-success" onclick="setQuestion('How do I check my approval status?')">✅ Check Approval Status</button>
-</div>
 
         <button class="btn btn-primary mt-3" onclick="askQuestion()">Ask</button>
         <p class="answer-box" id="answer"></p>
