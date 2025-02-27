@@ -19,7 +19,11 @@ def home():
 def ask():
     user_question = request.form["question"].lower()
 
-    # Define the list of common questions
+    # Easter Egg Response
+    if "who made you" in user_question:
+        return jsonify({"answer": "I was created by a genius named Timothy! 😎"})
+
+    # Define common questions
     common_questions = [
         "Logging into Concur",
         "Accessing the Concur Menu",
@@ -28,7 +32,7 @@ def ask():
         "Removing Expense Reports"
     ]
 
-    # Feature: Show the top 5 common questions
+    # Feature: Show top 5 questions
     if "five most common questions" in user_question or "top 5 questions" in user_question:
         response_text = "Here are the five most common questions:<br><ul>"
         for question in common_questions:
@@ -47,7 +51,7 @@ def ask():
         if any(word in user_question for word in guide_title.lower().split()):
             return jsonify({"answer": f"I found a guide that might help: <a href='{guide_url}' target='_blank'>{guide_title}</a>"})
 
-    # If no answer is found, provide a general help link
+    # If no answer is found, provide general help
     return jsonify({"answer": "I'm not sure about that. You can find more information here: <a href='https://csuf-afit.screenstepslive.com/m/75002' target='_blank'>Concur Documentation</a>"})
 
 if __name__ == "__main__":
