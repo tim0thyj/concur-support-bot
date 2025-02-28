@@ -35,6 +35,32 @@
             border-radius: 5px;
         }
 
+        /* Suggestions Dropdown */
+        .suggestions {
+            background: white;
+            color: black;
+            border: 1px solid #FF8200;
+            position: absolute;
+            width: 50%;
+            left: 25%;
+            max-height: 150px;
+            overflow-y: auto;
+            border-radius: 5px;
+            display: none;
+            text-align: left;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .suggestions div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestions div:hover {
+            background-color: #FF8200;
+            color: white;
+        }
+
         /* Answer Box */
         .answer-box {
             margin-top: 20px;
@@ -92,23 +118,14 @@
 
         <!-- Input Box with "Enter" Key Support -->
         <input type="text" id="question" class="form-control question-box"
-               placeholder="Type your question here... or ask to see the five most common questions"
+               placeholder="Type your question here..." oninput="showSuggestions()"
                onkeypress="handleKeyPress(event)">
+
+        <!-- Suggestions Dropdown -->
+        <div id="suggestions" class="suggestions"></div>
 
         <button class="btn btn-primary mt-3" onclick="askQuestion()">Ask</button>
         <p class="answer-box" id="answer"></p>
-
-        <!-- Pre-Populated Common Questions -->
-        <div id="suggestions">
-            <p><b>Common Questions:</b></p>
-            <ul>
-                <li><a href="#" onclick="setQuestion('How do I submit an expense report?')">How do I submit an expense report?</a></li>
-                <li><a href="#" onclick="setQuestion('How do I check my approval status?')">How do I check my approval status?</a></li>
-                <li><a href="#" onclick="setQuestion('How do I add an attachment in Concur?')">How do I add an attachment in Concur?</a></li>
-                <li><a href="#" onclick="setQuestion('How do I move Concur email reminders to a folder?')">How do I move Concur email reminders to a folder?</a></li>
-                <li><a href="#" onclick="setQuestion('How do I remove an expense report?')">How do I remove an expense report?</a></li>
-            </ul>
-        </div>
 
         <!-- "Did This Help?" Feedback Section -->
         <div id="feedback-section" style="display: none;">
@@ -126,6 +143,17 @@
     </div>
 
     <script>
+        const commonQuestions = [
+            "How do I submit an expense report?",
+            "How do I check my approval status?",
+            "How do I add an attachment in Concur?",
+            "How do I move Concur email reminders to a folder?",
+            "How do I remove an expense report?",
+            "What are the naming conventions in Concur?",
+            "How do I set up direct deposit for reimbursements?",
+            "How do I edit an existing expense report?"
+        ];
+
         function askQuestion() {
             let question = document.getElementById("question").value;
             if (question.trim() === "") return;
@@ -143,7 +171,7 @@
             });
 
             document.getElementById("question").value = "";
-            document.getElementById("suggestions").innerHTML = "";
+            document.getElementById("suggestions").style.display = "none";
         }
 
         function handleKeyPress(event) {
@@ -152,29 +180,34 @@
             }
         }
 
-        function setQuestion(text) {
-            document.getElementById("question").value = text;
-        }
+        function showSuggestions() {
+            let input = document.getElementById("question").value.toLowerCase();
+            let suggestionsDiv = document.getElementById("suggestions");
 
-        function askWhy() {
-            document.getElementById("why-section").style.display = "block";
-        }
-
-        function sendFeedback(type) {
-            let feedbackText = "";
-            if (type === "no") {
-                feedbackText = document.getElementById("feedback-text").value;
+            if (input.length === 0) {
+                suggestionsDiv.style.display = "none";
+                return;
             }
 
-            fetch("/feedback", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ type: type, feedback: feedbackText })
-            });
+            let filteredSuggestions = commonQuestions.filter(q =>
+                q.toLowerCase().includes(input)
+            );
 
-            document.getElementById("feedback-section").style.display = "none";
-            document.getElementById("why-section").style.display = "none";
-            alert("Thank you for your feedback!");
+            if (filteredSuggestions.length === 0) {
+                suggestionsDiv.style.display = "none";
+                return;
+            }
+
+            suggestionsDiv.innerHTML = filteredSuggestions
+                .map(q => `<div onclick="selectSuggestion('${q}')">${q}</div>`)
+                .join("");
+
+            suggestionsDiv.style.display = "block";
+        }
+
+        function selectSuggestion(question) {
+            document.getElementById("question").value = question;
+            document.getElementById("suggestions").style.display = "none";
         }
     </script>
 </body>
