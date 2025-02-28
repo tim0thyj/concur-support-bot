@@ -98,6 +98,18 @@
         <button class="btn btn-primary mt-3" onclick="askQuestion()">Ask</button>
         <p class="answer-box" id="answer"></p>
 
+        <!-- Pre-Populated Common Questions -->
+        <div id="suggestions">
+            <p><b>Common Questions:</b></p>
+            <ul>
+                <li><a href="#" onclick="setQuestion('How do I submit an expense report?')">How do I submit an expense report?</a></li>
+                <li><a href="#" onclick="setQuestion('How do I check my approval status?')">How do I check my approval status?</a></li>
+                <li><a href="#" onclick="setQuestion('How do I add an attachment in Concur?')">How do I add an attachment in Concur?</a></li>
+                <li><a href="#" onclick="setQuestion('How do I move Concur email reminders to a folder?')">How do I move Concur email reminders to a folder?</a></li>
+                <li><a href="#" onclick="setQuestion('How do I remove an expense report?')">How do I remove an expense report?</a></li>
+            </ul>
+        </div>
+
         <!-- "Did This Help?" Feedback Section -->
         <div id="feedback-section" style="display: none;">
             <p>Did this help?</p>
@@ -131,12 +143,17 @@
             });
 
             document.getElementById("question").value = "";
+            document.getElementById("suggestions").innerHTML = "";
         }
 
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 askQuestion();
             }
+        }
+
+        function setQuestion(text) {
+            document.getElementById("question").value = text;
         }
 
         function askWhy() {
