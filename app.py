@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 import json
+from fuzzywuzzy import process
 
 app = Flask(__name__)
 
@@ -23,35 +24,18 @@ def ask():
     if "who made you" in user_question:
         return jsonify({"answer": "I was created by a genius named Timothy! 😎"})
 
-    # Define common questions
-    common_questions = [
-        "Logging into Concur",
-        "Accessing the Concur Menu",
-        "Approval Status Check",
-        "Concur Attachments",
-        "Removing Expense Reports"
-    ]
-
-    # Feature: Show top 5 questions
-    if "five most common questions" in user_question or "top 5 questions" in user_question:
-        response_text = "Here are the five most common questions:<br><ul>"
-        for question in common_questions:
-            if question in concur_guides:
-                response_text += f"<li><a href='{concur_guides[question]}' target='_blank'>{question}</a></li>"
-        response_text += "</ul>"
-        return jsonify({"answer": response_text})
-
-    # Search for an answer in the knowledge base
+    # Search in the knowledge base
     for topic, answer in knowledge_base.items():
         if any(word in user_question for word in topic.lower().split()):
             return jsonify({"answer": answer})
 
-    # Check for related guides
-    for guide_title, guide_url in concur_guides.items():
-        if any(word in user_question for word in guide_title.lower().split()):
-            return jsonify({"answer": f"I found a guide that might help: <a href='{guide_url}' target='_blank'>{guide_title}</a>"})
+    # Check for related guides from the Concur website
+    best_match, score = process.extractOne(user_question, concur_guides.keys())
+    if score > 60:
+        guide_url = concur_guides[best_match]
+        return jsonify({"answer": f"I found a guide that might help: <a href='{guide_url}' target='_blank'>{best_match}</a>"})
 
-    # If no answer is found, provide general help
+    # If no answer is found, provide a general help link
     return jsonify({"answer": "I'm not sure about that. You can find more information here: <a href='https://csuf-afit.screenstepslive.com/m/75002' target='_blank'>Concur Documentation</a>"})
 
 if __name__ == "__main__":
