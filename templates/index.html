@@ -87,11 +87,6 @@
             background-color: #cc6600;
         }
 
-        /* Feedback Section */
-        #feedback-section {
-            margin-top: 15px;
-        }
-
         /* Mobile Styles */
         @media screen and (max-width: 768px) {
             .chat-container {
@@ -126,20 +121,6 @@
 
         <button class="btn btn-primary mt-3" onclick="askQuestion()">Ask</button>
         <p class="answer-box" id="answer"></p>
-
-        <!-- "Did This Help?" Feedback Section -->
-        <div id="feedback-section" style="display: none;">
-            <p>Did this help?</p>
-            <button class="btn btn-success" onclick="sendFeedback('yes')">👍 Yes</button>
-            <button class="btn btn-danger" onclick="askWhy()">👎 No</button>
-        </div>
-
-        <!-- Additional Feedback Input -->
-        <div id="why-section" style="display: none;">
-            <p>What went wrong?</p>
-            <input type="text" id="feedback-text" class="form-control" placeholder="Type your feedback here...">
-            <button class="btn btn-primary mt-2" onclick="sendFeedback('no')">Submit</button>
-        </div>
     </div>
 
     <script>
@@ -166,12 +147,10 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById("answer").innerHTML = data.answer;
-                document.getElementById("feedback-section").style.display = "block";
-                document.getElementById("why-section").style.display = "none";
+                document.getElementById("suggestions").style.display = "none";
             });
 
             document.getElementById("question").value = "";
-            document.getElementById("suggestions").style.display = "none";
         }
 
         function handleKeyPress(event) {
