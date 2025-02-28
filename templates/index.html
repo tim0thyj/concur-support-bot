@@ -114,7 +114,7 @@
         <!-- Input Box with "Enter" Key Support -->
         <input type="text" id="question" class="form-control question-box"
                placeholder="Type your question here..." oninput="showSuggestions()"
-               onkeypress="handleKeyPress(event)">
+               onkeypress="if(event.key === 'Enter') { askQuestion(); event.preventDefault(); }">
 
         <!-- Suggestions Dropdown -->
         <div id="suggestions" class="suggestions"></div>
@@ -151,12 +151,6 @@
             });
 
             document.getElementById("question").value = "";
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                askQuestion();
-            }
         }
 
         function showSuggestions() {
