@@ -8,10 +8,11 @@
 <style>
     /* General Styling */
     body {
-        background-color: #f8f9fa;
+        background-color: #00274C; /* CSUF Navy Blue */
+        color: #FFFFFF; /* White text for contrast */
         text-align: center;
+        font-family: 'Arial', sans-serif;
         padding-top: 30px;
-        font-family: Arial, sans-serif;
     }
 
     /* Chat Container */
@@ -19,9 +20,10 @@
         width: 60%;
         margin: auto;
         padding: 20px;
-        background: white;
+        background: #FFFFFF; /* White background */
         border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        color: #00274C; /* Navy text */
     }
 
     /* Input Box */
@@ -29,7 +31,7 @@
         width: 80%;
         padding: 12px;
         font-size: 16px;
-        border: 1px solid #ccc;
+        border: 2px solid #FF8200; /* Titan Orange border */
         border-radius: 5px;
     }
 
@@ -38,6 +40,48 @@
         margin-top: 20px;
         font-size: 18px;
         font-weight: bold;
+        color: #00274C; /* Navy Blue text */
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #FF8200; /* Titan Orange */
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #cc6600; /* Darker Orange */
+    }
+
+    .btn-success {
+        background-color: #00274C; /* CSUF Navy Blue */
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #001A35; /* Darker Navy */
+    }
+
+    .btn-danger {
+        background-color: #D50000; /* CSUF Red */
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #A30000; /* Darker Red */
+    }
+
+    /* Feedback Section */
+    #feedback-section {
+        margin-top: 15px;
     }
 
     /* Mobile Styles */
@@ -52,16 +96,9 @@
             font-size: 14px;
         }
 
-        .quick-buttons {
-            flex-direction: column;
-        }
-
-        .quick-buttons button {
+        .btn {
             width: 100%;
-        }
-
-        .answer-box {
-            font-size: 16px;
+            padding: 10px;
         }
     }
 </style>
